@@ -23,7 +23,11 @@ import './style.css'
 
 // setupCounter(document.querySelector('#counter'))
 
-const URL = "https://pokeapi.co/api/v2/pokemon/charmander";
+const URL = "http://universities.hipolabs.com";
+
+
+
+// http://universities.hipolabs.com/search?name=middle
 
 async function getData(URL) {
   try {
