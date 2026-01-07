@@ -1,29 +1,6 @@
 import "./style.css";
-// import javascriptLogo from './javascript.svg'
-// import viteLogo from '/vite.svg'
-// import { setupCounter } from './counter.js'
 
-// document.querySelector('#app').innerHTML = `
-//   <div>
-//     <a href="https://vite.dev" target="_blank">
-//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
-//     </a>
-//     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-//       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-//     </a>
-//     <h1>Hello Vite!</h1>
-//     <div class="card">
-//       <button id="counter" type="button"></button>
-//     </div>
-//     <p class="read-the-docs">
-//       Click on the Vite logo to learn more
-//     </p>
-//   </div>
-// `
-
-// setupCounter(document.querySelector('#counter'))
-
-const URL = "http://universities.hipolabs.com";
+const URL = "http://universities.hipolabs.com/search?name=middle";
 
 
 
@@ -45,3 +22,25 @@ async function getData(URL) {
   }
 }
 getData(URL);
+
+function inject(data) {
+  const card = document.createElement("div");
+  card.classList.add("display-card");
+  card.dataset.id = book.id;
+  card.dataset.genre = book.genre.toLowerCase();
+  card.dataset.status = "none";
+
+  card.innerHTML = `
+    <img class="display-src" src="${book.src}" alt="${book.title}" />
+    <h2 class="display-title">${book.title}</h2>
+    <h3 class="display-author">${book.author}</h3>
+    <h3 class="display-genre">${book.genre}</h3>
+    <h5 class="year">${book.year}</h5>
+
+    <button class="want-btn">Want to Read</button>
+    <button class="buy-btn">Want to Buy</button>
+    <button class="read-btn">Already Read</button>
+  `;
+
+  displaySection.appendChild(card);
+}
