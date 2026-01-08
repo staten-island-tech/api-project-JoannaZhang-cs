@@ -3,9 +3,6 @@ import "./style.css";
 const URL = "http://universities.hipolabs.com/search?name=middle";
 
 
-
-// http://universities.hipolabs.com/search?name=middle
-
 async function getData(URL) {
   try {
     const response = await fetch(URL);
