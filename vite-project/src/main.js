@@ -2,39 +2,47 @@ import "./style.css";
 
 const URL = "https://api.artic.edu/api/v1/artworks";
 
-
-
-async function getData(URL) {
+async function getData() {
   try {
     const response = await fetch(URL);
     if (response.status != 200) {
       throw new Error(response);
-    } else {
-      const data = await response.json(); //makes the data into JSON object we can use
-      console.log(data);
-      document.getElementById("api-response").textContent = data.name;
     }
+    const data = await response.json(); //makes the data into JSON object we can use
+    return data.data;
   } catch (error) {
-    console.log(error);
-    console.log("no bueno");
+    console.error("no bueno", error);
   }
 }
-getData(URL);
 
-function inject(data) {
+//     const data = await response.json(); //makes the data into JSON object we can use
+//     return data.data.forEach((art) => console.log(art));
+//     document.getElementById("api-response").textContent = data.name;
+//   }
+// } catch (error) {
+
+function inject(art) {
+  const container = document.querySelector(".card");
   const card = document.createElement("div");
   card.classList.add("display-card");
-  card.dataset.id = book.id;
-  card.dataset.genre = book.genre.toLowerCase();
-  card.dataset.status = "none";
+  card.dataset.id = art.id;
+  // card.dataset.genre = art.genre.toLowerCase();
+  // card.dataset.status = "none";
+  const imgSrc = art.image_id
+    ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+    : "";
 
   card.innerHTML = `
-    <img class="display-src" src="${art.src}" alt="${art.title}" />
+    <img class="display-src" src="${imgSrc}" alt="${art.title}" />
     <h2 class="display-title">${art.title}</h2>
-    <h3 class="display-author">${art.author}</h3>
-    <h3 class="display-genre">${art.genre}</h3>
-    <h5 class="year">${art.year}</h5>
+    <h3 class="display-author">${art.artist_title || "Unknown Artist"}</h3>
+    <h5 class="year">${art.date_display || ""}</h5>
   `;
 
-  displaySection.appendChild(card);
+  container.appendChild(card);
 }
+
+(async function init() {
+  const artworks = await getData();
+  artworks.forEach((art) => inject(art));
+})();
