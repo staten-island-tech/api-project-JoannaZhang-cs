@@ -1,6 +1,7 @@
 import "./style.css";
 
-const URL = "http://universities.hipolabs.com/search?name=middle";
+const URL = "https://api.artic.edu/api/v1/artworks";
+
 
 
 async function getData(URL) {
@@ -28,15 +29,11 @@ function inject(data) {
   card.dataset.status = "none";
 
   card.innerHTML = `
-    <img class="display-src" src="${book.src}" alt="${book.title}" />
-    <h2 class="display-title">${book.title}</h2>
-    <h3 class="display-author">${book.author}</h3>
-    <h3 class="display-genre">${book.genre}</h3>
-    <h5 class="year">${book.year}</h5>
-
-    <button class="want-btn">Want to Read</button>
-    <button class="buy-btn">Want to Buy</button>
-    <button class="read-btn">Already Read</button>
+    <img class="display-src" src="${art.src}" alt="${art.title}" />
+    <h2 class="display-title">${art.title}</h2>
+    <h3 class="display-author">${art.author}</h3>
+    <h3 class="display-genre">${art.genre}</h3>
+    <h5 class="year">${art.year}</h5>
   `;
 
   displaySection.appendChild(card);
