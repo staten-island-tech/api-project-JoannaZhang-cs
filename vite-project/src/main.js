@@ -46,3 +46,26 @@ function inject(art) {
   const artworks = await getData();
   artworks.forEach((art) => inject(art));
 })();
+
+// const container = document.getElementById("app");
+
+// fetch("http://universities.hipolabs.com/search?country=United+States")
+//   .then((res) => res.json())
+//   .then((data) => {
+//     data.slice(0, 10).forEach((uni) => {
+//       addCard(uni);
+//     });
+//   });
+
+// function addCard(uni) {
+//   const card = document.createElement("div");
+//   card.className = "card";
+
+//   card.innerHTML = `
+//     <h2>${uni.name}</h2>
+//     <p><strong>Country:</strong> ${uni.country}</p>
+//     <a href="${uni.web_pages[0]}" target="_blank">Visit Website</a>
+//   `;
+
+//   container.appendChild(card);
+// }
