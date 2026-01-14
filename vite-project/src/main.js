@@ -1,18 +1,21 @@
 import "./style.css";
 
 let allArtworks = [];
-
+//stores all objects from API
 const URL = "https://api.artic.edu/api/v1/artworks";
-
+//stores api in constant
 async function getData() {
+  //async function returns a promise
   try {
-    const response = await fetch(URL);
+    const response = await fetch(URL); //fetches data from API and waits for it to arrive
     if (response.status != 200) {
-      throw new Error(response);
+      //checks if response is not ok (200 means success)
+      throw new Error(response); //sends error to catch block
     }
-    const data = await response.json(); //makes the data into JSON object we can use
-    return data.data;
+    const data = await response.json(); //makes the data into JSON object we can use //await is needed bc this is asynchronous
+    return data.data; //returns only the array of artworks
   } catch (error) {
+    //runs if there is an error in try block
     console.error("no bueno", error);
   }
 }
@@ -24,55 +27,75 @@ async function getData() {
 // } catch (error) {
 
 function clearCards() {
-  const container = document.querySelector(".card");
-  container.innerHTML = "";
+  const container = document.querySelector(".card"); //finds card element in DOM manipulator (this is wear artwork cards are)
+  container.innerHTML = ""; //clears all existing cards by setting innerHTML to empty string
 }
 
 function inject(art) {
-  const container = document.querySelector(".card");
+  //creates one card (one artwork object at a time)
+  const container = document.querySelector(".card"); //selects container element where cards will be added (parent container)
   const card = document.createElement("div");
-  card.classList.add("display-card");
-  card.dataset.id = art.id;
+  card.classList.add("display-card"); //new class for styling
+  card.dataset.id = art.id; //adds an id that'll ne useful for filtering later
   // card.dataset.genre = art.genre.toLowerCase();
   // card.dataset.status = "none";
-  const imgSrc = art.image_id
-    ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
-    : "";
+  const imgSrc = art.image_id //checks if artwork has an image
+    ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg` //if it does, constructs the image URL using the image_id for the artwork
+    : ""; //if it doesn't, sets imgSrc to an empty string to avoid broken image links
+  //? and : are ternary operators, shorthand for if-else statement (more concise)
+  //this is boolean conditional statement (? is true, : is false)
 
-  card.innerHTML = `
+  // same as: let imgSrc;
+  // if (art.image_id) {
+  //   imgSrc = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
+  // } else {
+  //   imgSrc = "";
+  // }
+
+  card.innerHTML = ` 
+  // inserts HTML structure for the card using string
     <img class="display-src" src="${imgSrc}" alt="${art.title}" />
     <h2 class="display-title">${art.title}</h2>
-    <h3 class="display-author">${art.artist_title || "Unknown Artist"}</h3>
-    <h5 class="year">${art.date_display || ""}</h5>
+    <h3 class="display-author">${
+      art.artist_title || "Unknown Artist"
+    }</h3> //unknown artist if no artist
+    <h5 class="year">${
+      art.date_display || ""
+    }</h5> //empty string if no date, only displays it if it's available
   `;
 
-  container.appendChild(card);
+  container.appendChild(card); //adds card to page
 }
 
 (async function init() {
-  allArtworks = await getData();
-  allArtworks.forEach((art) => inject(art));
+  //runs automatically when script loads
+  allArtworks = await getData(); //fetches all artworks from API and stores them in allArtworks array
+  allArtworks.forEach((art) => inject(art)); //loops through all artworks and creates a card for each one by calling inject function (displays them on page load)
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("search");
+  //waits until HTML if fully loaded
+  const searchInput = document.getElementById("search"); //selects search input element
 
-  if (!searchInput) return;
+  if (!searchInput) return; //prevents errors if search input is not found, returns the function
 
   searchInput.addEventListener("input", (e) => {
-    const searchTerm = e.target.value.toLowerCase();
+    //runs whenever user types in search input
+    const searchTerm = e.target.value.toLowerCase(); //reads the text & converts it to lowercase for case-insensitive search
 
     const filteredArt = allArtworks.filter((art) => {
-      const title = art.title?.toLowerCase() || "";
-      const artist = art.artist_title?.toLowerCase() || "";
+      //creates NEW array for only the artworks that matcht the search
+      const title = art.title?.toLowerCase() || ""; //reads title and artist, converts to lowercase, uses optional chaining to avoid errors if title or artist is missing
+      const artist = art.artist_title?.toLowerCase() || ""; //similar to date/year handling in inject function
 
-      return title.includes(searchTerm) || artist.includes(searchTerm);
+      return title.includes(searchTerm) || artist.includes(searchTerm); //only keeps artworks when title or artist matches in the search
     });
 
-    clearCards();
-    filteredArt.forEach((art) => inject(art));
+    clearCards(); //removes old cards from page
+    filteredArt.forEach((art) => inject(art)); //displays filtered results by creating new cards for each matching artwork
   });
 });
+
 // const container = document.getElementById("app");
 
 // fetch("http://universities.hipolabs.com/search?country=United+States")
