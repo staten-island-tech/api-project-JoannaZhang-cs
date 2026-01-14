@@ -53,17 +53,16 @@ function inject(art) {
   // }
 
   card.innerHTML = ` 
-  // inserts HTML structure for the card using string
     <img class="display-src" src="${imgSrc}" alt="${art.title}" />
     <h2 class="display-title">${art.title}</h2>
     <h3 class="display-author">${
       art.artist_title || "Unknown Artist"
-    }</h3> //unknown artist if no artist
+    }</h3> 
     <h5 class="year">${
       art.date_display || ""
-    }</h5> //empty string if no date, only displays it if it's available
+    }</h5>
   `;
-
+ //empty string if no date, only displays it if it's available
   container.appendChild(card); //adds card to page
 }
 
