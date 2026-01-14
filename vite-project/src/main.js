@@ -1,5 +1,7 @@
 import "./style.css";
 
+let allArtworks = [];
+
 const URL = "https://api.artic.edu/api/v1/artworks";
 
 async function getData() {
@@ -20,6 +22,11 @@ async function getData() {
 //     document.getElementById("api-response").textContent = data.name;
 //   }
 // } catch (error) {
+
+function clearCards() {
+  const container = document.querySelector(".card");
+  container.innerHTML = "";
+}
 
 function inject(art) {
   const container = document.querySelector(".card");
@@ -43,10 +50,29 @@ function inject(art) {
 }
 
 (async function init() {
-  const artworks = await getData();
-  artworks.forEach((art) => inject(art));
+  allArtworks = await getData();
+  allArtworks.forEach((art) => inject(art));
 })();
 
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("search");
+
+  if (!searchInput) return;
+
+  searchInput.addEventListener("input", (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+
+    const filteredArt = allArtworks.filter((art) => {
+      const title = art.title?.toLowerCase() || "";
+      const artist = art.artist_title?.toLowerCase() || "";
+
+      return title.includes(searchTerm) || artist.includes(searchTerm);
+    });
+
+    clearCards();
+    filteredArt.forEach((art) => inject(art));
+  });
+});
 // const container = document.getElementById("app");
 
 // fetch("http://universities.hipolabs.com/search?country=United+States")

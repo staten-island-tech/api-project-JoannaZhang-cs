@@ -1,5 +1,5 @@
 {
-  "name": "api-project-JoannaZhang-cs",
+  "name": "my-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,12 +9,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.23",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.18",
     "vite": "^7.2.4"
   },
   "dependencies": {
-    "mtgsdk": "^0.2.0"
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18"
   }
 }
