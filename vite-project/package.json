@@ -1,5 +1,5 @@
 {
-  "name": "api-project-JoannaZhang-cs",
+  "name": "api-project-joanna-zhang-cs",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -18,4 +18,3 @@
     "mtgsdk": "^0.2.0"
   }
 }
-
