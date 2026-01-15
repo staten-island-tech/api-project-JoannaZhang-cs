@@ -32,35 +32,80 @@ function clearCards() {
 }
 
 function inject(art) {
-  //creates one card (one artwork object at a time)
-  const container = document.querySelector(".card"); //selects container element where cards will be added (parent container)
-  const card = document.createElement("div");
-  card.classList.add("display-card"); //new class for styling
-  card.dataset.id = art.id; //adds an id that'll ne useful for filtering later
-  // card.dataset.genre = art.genre.toLowerCase();
-  // card.dataset.status = "none";
-  const imgSrc = art.image_id //checks if artwork has an image
-    ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg` //if it does, constructs the image URL using the image_id for the artwork
-    : ""; //if it doesn't, sets imgSrc to an empty string to avoid broken image links
-  //? and : are ternary operators, shorthand for if-else statement (more concise)
-  //this is boolean conditional statement (? is true, : is false)
+  const container = document.querySelector(".card");
 
-  // same as: let imgSrc;
-  // if (art.image_id) {
-  //   imgSrc = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
-  // } else {
-  //   imgSrc = "";
-  // }
+  const card = document.createElement("div");
+  card.dataset.id = art.id;
+
+  const imgSrc = art.image_id
+    ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`
+    : "https://via.placeholder.com/800x600?text=No+Image";
+
+  card.innerHTML = `
+    <div class="w-full max-w-xs overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg shadow-slate-950/5">
+      <img
+        class="m-1.5 h-max w-[calc(100%-12px)] rounded-[5px]"
+        src="${imgSrc}"
+        alt="${art.title}"
+      />
+
+      <div class="h-max w-full rounded px-3 py-2">
+        <h6 class="font-sans text-base font-bold text-current antialiased md:text-lg lg:text-xl">
+          ${art.title}
+        </h6>
+
+        <p class="my-1 font-sans text-base text-slate-600 antialiased">
+          ${art.artist_title || "Unknown Artist"}
+        </p>
+      </div>
+
+      <div class="w-full rounded px-3 pb-3 pt-1.5">
+        <button
+          class="inline-flex rounded-md border border-slate-800 bg-slate-800 px-4 py-2 text-center font-sans text-sm font-medium text-slate-50 transition-all duration-300 ease-in hover:border-slate-700 hover:bg-slate-700"
+        >
+          Read More
+        </button>
+      </div>
+    </div>
+  `;
+
+  container.appendChild(card);
+
+  // function inject(art) {
+  //   //creates one card (one artwork object at a time)
+  //   const container = document.querySelector(".card"); //selects container element where cards will be added (parent container)
+  //   const card = document.createElement("div");
+  //   card.classList.add("display-card"); //new class for styling
+  //   card.dataset.id = art.id; //adds an id that'll ne useful for filtering later
+  //   // card.dataset.genre = art.genre.toLowerCase();
+  //   // card.dataset.status = "none";
+  //   const imgSrc = art.image_id //checks if artwork has an image
+  //     ? `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg` //if it does, constructs the image URL using the image_id for the artwork
+  //     : ""; //if it doesn't, sets imgSrc to an empty string to avoid broken image links
+  //   //? and : are ternary operators, shorthand for if-else statement (more concise)
+  //   //this is boolean conditional statement (? is true, : is false)
+
+  //   // same as: let imgSrc;
+  //   // if (art.image_id) {
+  //   //   imgSrc = `https://www.artic.edu/iiif/2/${art.image_id}/full/843,/0/default.jpg`;
+  //   // } else {
+  //   //   imgSrc = "";
+  //   // }
 
   card.innerHTML = ` 
     <img class="display-src" src="${imgSrc}" alt="${art.title}" />
     <h2 class="display-title">${art.title}</h2>
+<<<<<<< HEAD
     <h3 class="display-author">${
       art.artist_title || "Unknown Artist"
     }</h3> 
     <h5 class="year">${
       art.date_display || ""
     }</h5>
+=======
+    <h3 class="display-author">${art.artist_title || "Unknown Artist"}</h3> 
+    <h5 class="year">${art.date_display || ""}</h5> 
+>>>>>>> 53d0d8eac009d8a7ed3285c8e565e8ca35d88aeb
   `;
  //empty string if no date, only displays it if it's available
   container.appendChild(card); //adds card to page
