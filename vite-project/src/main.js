@@ -20,7 +20,7 @@ async function getData() {
     console.error("no bueno", error);
   }
 }
-
+//search = documentbyID?
 async function searchArtworksByTitle(query) {
   //query is artwork title user is searching for
   try {
